@@ -55,6 +55,7 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
+
 // generting token
 userSchema.methods.generatAuthtoken = async function(){
     try {
@@ -65,6 +66,17 @@ userSchema.methods.generatAuthtoken = async function(){
         await this.save();
         return token;
 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// addto cart data
+userSchema.methods.addcartdata = async function(cart){
+    try {
+        this.carts = this.carts.concat(cart);
+        await this.save();
+        return this.carts;
     } catch (error) {
         console.log(error);
     }

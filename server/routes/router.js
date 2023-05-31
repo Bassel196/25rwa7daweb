@@ -1,7 +1,8 @@
 const express = require("express")
 const router = new express.Router()
 const Products = require("../models/productsSchema")
-const USER = require("../models/userSchema")
+const User = require("../models/userSchema")
+const authenicate = require("../middleware/authenticate");
 
 // get products data api
 router.get("/getproducts", async(req,res)=>{
@@ -14,6 +15,8 @@ router.get("/getproducts", async(req,res)=>{
     }
     
 })
+
+
 
 router.get("/getproductsone/:id",async(req,res)=>{
     try{
@@ -32,6 +35,10 @@ router.get("/getproductsone/:id",async(req,res)=>{
     }
 })
 
+
+
+
+
 //register data
 router.post("/register", async(req,res)=>{
     console.log(req.body)
@@ -44,7 +51,7 @@ router.post("/register", async(req,res)=>{
     }
 
     try{
-        const preuser = await USER.findOne({email:email})
+        const preuser = await User.findOne({email:email})
 
         if(preuser){
             res.status(422).json({error:"this user is already exist"})
@@ -53,7 +60,7 @@ router.post("/register", async(req,res)=>{
             res.status(422).json({error:"password and cpassword don't match each other"})
         }
         else{
-            const finalUser = new USER({
+            const finalUser = new User({
                 fname,email,mobile,password,cpassword
             })
 
@@ -117,6 +124,49 @@ router.post("/login", async (req, res) => {
 });
 
 
+
+
+// adding the data into cart
+router.post("/addcart/:id", authenicate, async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const cart = await Products.findOne({ id: id });
+        console.log(cart + "cart value");
+
+        const Usercontact = await User.findOne({ _id: req.userID });
+        console.log(Usercontact + "user value");
+
+
+        if (Usercontact) {
+            const cartData = await Usercontact.addcartdata(cart);
+
+            await Usercontact.save();
+            console.log(cartData + " saved");
+            console.log(Usercontact + "user save");
+            res.status(201).json(Usercontact);
+        }
+        else{
+            res.status(401).json({error:"Invalid user"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
+
+
+// cart details
+router.get("/cartdetails", authenicate, async (req, res) => {
+    try {
+        const buyuser = await User.findOne({ _id: req.userID });
+        console.log(buyuser);
+        res.status(201).json(buyuser);
+    } catch (error) {
+        console.log(error + "error for buy now");
+    }
+});
 
 
 module.exports = router

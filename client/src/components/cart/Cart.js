@@ -9,7 +9,7 @@ import { Logincontext } from "../context/Contextprovider";
 const Cart = () => {
 
     const { account, setAccount } = useContext(Logincontext);
-    // console.log(account);
+     //console.log(account);
 
 
 
@@ -62,12 +62,12 @@ const Cart = () => {
         });
         // console.log(check);
         const data1 = await check.json();
-        // console.log(data1 +  'ok');
+        // console.log(data1 +  'Frontend data');
 
         if (check.status !== 201) {
             alert("no data available")
         } else {
-            // console.log("cart add ho gya hain");
+            console.log("Item added in your cart");
             setAccount(data1)
             history.push("/buynow");
         }
