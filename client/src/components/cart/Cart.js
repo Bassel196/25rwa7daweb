@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import "./cart.css";
 // import { products } from '../home/productdata';
 import { Divider } from '@mui/material';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Logincontext } from "../context/Contextprovider";
 
@@ -16,7 +16,7 @@ const Cart = () => {
     const { id } = useParams("");
     // console.log(id);
 
-    const history = useHistory();
+    const history = useNavigate();
 
     const [inddata, setInddata] = useState([]);
 
@@ -69,7 +69,7 @@ const Cart = () => {
         } else {
             console.log("Item added in your cart");
             setAccount(data1)
-            history.push("/buynow");
+            history("/buynow");
         }
     }
 

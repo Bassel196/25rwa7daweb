@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 
 const Right = ({ iteam }) => {
 
@@ -10,7 +10,7 @@ const Right = ({ iteam }) => {
 
     const [price, setPrice] = useState(0);
 
-    const history = useHistory("");
+    const history = useNavigate("");
 
     useEffect(() => {
         totalAmount();
@@ -26,7 +26,7 @@ const Right = ({ iteam }) => {
 
     const proceesby = ()=>{
         alert("Your Order is Confirmed");
-        history.push("/");
+        history("/");
     }
 
     return (
