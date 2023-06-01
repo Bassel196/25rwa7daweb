@@ -12,8 +12,8 @@ const Option = ({ deletedata, get }) => {
 
     const removedata = async (id) => {
         try {
-            const res = await fetch(`remove/${id}`, {
-                method: "GET",
+            const res = await fetch(`remove/${deletedata}`, {
+                method: "DELETE",
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json"
@@ -25,11 +25,11 @@ const Option = ({ deletedata, get }) => {
             // console.log(data);
 
             if (res.status === 400 || !data) {
-                console.log("error aai remove time pr");
+                console.log("error");
             } else {
                 setAccount(data)
                 get();
-                toast.success("Iteam remove from cart 😃!", {
+                toast.success("Item remove from cart 😃!", {
                     position: "top-center"
                 });
             }

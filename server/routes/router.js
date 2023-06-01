@@ -169,4 +169,40 @@ router.get("/cartdetails", authenicate, async (req, res) => {
 });
 
 
+
+
+
+// get user is login or not
+router.get("/validuser", authenicate, async (req, res) => {
+    try {
+        const validuserone = await User.findOne({ _id: req.userID });
+        console.log(validuserone + "user hain home k header main pr");
+        res.status(201).json(validuserone);
+    } catch (error) {
+        console.log(error + "error for valid user");
+    }
+});
+
+
+
+// remove item from the cart
+router.delete("/remove/:id", authenicate, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        req.rootUser.carts = req.rootUser.carts.filter((curel) => {
+            return curel.id != id
+        });
+
+        req.rootUser.save();
+        res.status(201).json(req.rootUser);
+        console.log("item removed");
+
+    } catch (error) {
+        console.log(error + " provide then remove");
+        res.status(400).json(error);
+    }
+});
+
+
 module.exports = router
